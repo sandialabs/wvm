@@ -1,1 +1,1 @@
-# wvm
+The Wavelet Variability Model (WVM) estimates the average irradiance over a defined area, from a set of point measurements of irradiance. The area-averaged irradiance is a key input to simulations of power from photovoltaic (PV) systems.
