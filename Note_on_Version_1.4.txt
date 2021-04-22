@@ -1,0 +1,29 @@
+The WVM was updated to version 1.4 on April 22, 2021.
+
+The update was to edit the a few lines in the "pvl_WVM_compute_wavelet.m" code. The edits were required to ensure that the summation of all wavelet timescales resulted in the original timeseries. Using the variables in the code: the edits are to ensure that sum(wavelet)=clear_sky_index.
+
+**The expected impact to WVM outputs is very small. For simulating small PV plants, there should be less than a 0.5% change in mean absolute values from v1.3 to v1.4. For simulating larger PV plants, there should be almost no change in WVM output.** 
+
+
+
+The update to the "pvl_WVM_compute_wavelet.m" code is detailed below:
+
+**VERSION 1.3**
+%only compute wavelets up to 2^12=4096s
+lasttimescale=12-minj; 
+ 
+for j=1:1:lasttimescale
+    tmscales(j)=2.^j*secsdiff;
+    intervallength=2^j;
+    csi_mean(j,:)=moving(clear_sky_index2,intervallength); 
+end	
+
+**VERSION 1.4**
+%only compute wavelets up to 2^12=4096s: since timescales=2^(j-1), longest timescale is j=13
+lasttimescale=13-minj; 
+ 
+for j=1:1:lasttimescale
+    tmscales(j)=2.^(j-1)*secsdiff;
+    intervallength=2^(j-1);
+    csi_mean(j,:)=moving(clear_sky_index2,intervallength); 
+end
